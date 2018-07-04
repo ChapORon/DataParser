@@ -22,6 +22,18 @@ if (CMAKE_BUILD_TYPE MATCHES Debug)
     add_definitions(-DDEBUG=1)
 endif()
 
-set(SOURCE_FILES)
+set(SOURCE_FILES
+        ${INCPATH}/dt/data.hpp
+        ${INCPATH}/dt/node.hpp
+        ${INCPATH}/dt/root.hpp
+        ${INCPATH}/XML/File.hpp
+        ${INCPATH}/XML/Markup.hpp
+        ${INCPATH}/XML/Object.hpp
+        ${SRCPATH}/dt/data.cpp
+        ${SRCPATH}/dt/node.cpp
+        ${SRCPATH}/dt/root.cpp
+        ${SRCPATH}/XML/File.cpp
+        ${SRCPATH}/XML/Markup.cpp
+        ${SRCPATH}/XML/InnerMarkup.cpp)
 
 add_library(${NAME} SHARED ${SOURCE_FILES})
