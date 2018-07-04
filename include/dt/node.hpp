@@ -12,12 +12,17 @@ namespace dp::dt
     class node
     {
     public:
+        static node null;
         typedef node *iterator;
         typedef const node *const_iterator;
     private:
+        bool _null;
         std::string _name;
         data _value;
         std::vector<node> _childs;
+
+    protected:
+        node(bool);
 
     public:
         node();

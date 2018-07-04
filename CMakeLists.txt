@@ -26,9 +26,11 @@ endif()
 set(SOURCE_FILES
         ${INCPATH}/dt/data.hpp
         ${INCPATH}/dt/node.hpp
+        ${INCPATH}/parser.hpp
         ${INCPATH}/xml.hpp
         ${SRCPATH}/dt/data.cpp
         ${SRCPATH}/dt/node.cpp
+        ${SRCPATH}/parser.cpp
         ${SRCPATH}/xml.cpp)
 
 add_library(${NAME} SHARED ${SOURCE_FILES})

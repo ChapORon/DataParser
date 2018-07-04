@@ -1,61 +1,9 @@
 #include "xml.hpp"
-#include <iostream>
-
-static inline bool start_with(const std::string &str, const std::string &regex)
-{
-    return (str.find(regex) == 0);
-}
-
-static inline bool end_with(const std::string &str, const std::string &regex)
-{
-    return (str.find(regex, (str.size() - regex.size())) == (str.size() - regex.size()));
-}
-
-static void replace_all(std::string &str, const std::string &search, const std::string &replace)
-{
-    size_t pos;
-    while ((pos = str.find(search, 0)) != std::string::npos)
-        str.replace(pos, search.length(), replace);
-}
-
-static void trim(std::string &str)
-{
-    replace_all(str, "\t", " ");
-    replace_all(str, "  ", " ");
-    if (str.find_first_of(' ') == 0)
-        str = str.substr(1);
-    if (str.find_last_of(' ') == str.length() - 1)
-        str = str.substr(0, str.length() - 1);
-}
-
-static size_t count(std::string &str, const std::string &regex)
-{
-    size_t pos = 0, count = 0;
-    while ((pos = str.find(regex, pos)) != std::string::npos)
-    {
-        ++count;
-        pos += regex.length();
-    }
-    return count;
-}
-
-static std::vector<std::string> split(const std::string &str, const std::string &regex)
-{
-    std::vector<std::string> vec;
-    size_t prev_pos = 0, pos = 0;
-    while((pos = str.find(regex, pos)) != std::string::npos)
-    {
-        std::string substr(str.substr(prev_pos, pos - prev_pos));
-        vec.emplace_back(substr);
-        pos += regex.size();
-        prev_pos = pos;
-    }
-    vec.emplace_back(str.substr(prev_pos, pos - prev_pos));
-    return vec;
-}
 
 const std::string dp::xml::str(const dp::dt::node &node, unsigned int indentFactor, unsigned int depth)
 {
+    if (node == dt::node::null)
+        return "(null)";
     std::string name = node.name();
     std::transform(name.begin(), name.end(), name.begin(), ::tolower);
     std::string tabs;
@@ -66,20 +14,17 @@ const std::string dp::xml::str(const dp::dt::node &node, unsigned int indentFact
         tabs += indent;
     std::string content;
     unsigned int minSize = 0;
-    if (depth == 0)
+    if (depth == 0 && node.find("__xmldeclarations__"))
     {
-        if (node.find("__xmldeclarations__"))
+        dt::node elements = node.get("__xmldeclarations__");
+        for (const auto &element : elements)
         {
-            dt::node elements = node.get("__xmldeclarations__");
-            for (const auto &element : elements)
-            {
-                content += "<?" + element.name();
-                for (const auto &info : element)
-                    content += " " + info.name() + "=\"" + info.value().getString() + "\"";
-                content += "?>\n";
-            }
-            ++minSize;
+            content += "<?" + element.name();
+            for (const auto &info : element)
+                content += " " + info.name() + "=\"" + info.value().getString() + "\"";
+            content += "?>\n";
         }
+        ++minSize;
     }
     content += tabs + "<" + name;
     if (node.find("__xmlattributes__"))
@@ -149,7 +94,10 @@ void dp::xml::addDeclaration(dp::dt::node &node, const std::string &key, const s
 dp::dt::node dp::xml::loadFromFile(const std::string &path)
 {
     std::ifstream fileStream(path.c_str());
-    return loadFromStream(fileStream);
+    auto node = loadFromStream(fileStream);
+    if (!node.get("__xmldeclarations__").find("xml"))
+        return dt::node::null;
+    return node;
 }
 
 std::string dp::xml::treatCommentary(std::string &content)
@@ -435,7 +383,7 @@ bool dp::xml::treatContent(dt::node &node, std::string &content)
     return true;
 }
 
-std::string extractName(std::string &content)
+std::string dp::xml::extractName(std::string &content)
 {
     std::string tmp = content;
     if (start_with(tmp, "\n"))
@@ -455,31 +403,27 @@ dp::dt::node dp::xml::loadFromContent(const std::string &xmlContent)
     std::string content = xmlContent;
     content = treatCommentary(content);
     if (content.empty())
-        return create("");
+        return dt::node::null;
     if (start_with(content, "\n"))
         content = content.substr(1, content.size());
-    if (!start_with(content, "<?"))
-        return create("");
     treatAutoCloseMarkup(content);
     dp::dt::node node;
     if (!treatDeclarations(node, content))
-        return create("");
-    if (!node.get("__xmldeclarations__").find("xml"))
-        return create("");
+        return dt::node::null;
     size_t openingTag = count(content, "<") - count(content, "<?");
     size_t enclosingTag = count(content, "</");
     if (openingTag != (enclosingTag * 2))
-        return create("");
+        return dt::node::null;
     node.name(extractName(content));
     if (!treatContent(node, content))
-        return create("");
+        return dt::node::null;
     if (start_with(content, "</"))
     {
         std::string closeTag = content.substr(2, content.find('>') - 2);
         trim(closeTag);
         std::transform(closeTag.begin(), closeTag.end(), closeTag.begin(), ::tolower);
         if (node.name() != closeTag)
-            return create("");
+            return dt::node::null;
     }
     return node;
 }

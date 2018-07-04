@@ -3,10 +3,11 @@
 
 #include <fstream>
 #include "dt/node.hpp"
+#include "parser.hpp"
 
 namespace dp
 {
-    class xml
+    class xml : public parser
     {
     private:
         static std::string treatCommentary(std::string &);
@@ -17,6 +18,8 @@ namespace dp
         static void treatMarkupContent(dt::node &, const std::string &);
         static bool setAttributes(dt::node &, const std::string &);
         static bool treatContent(dt::node &, std::string &);
+        static std::string extractName(std::string &content);
+
     public:
         static dt::node create(const std::string &, const std::string & = "1.0", const std::string & = "UTF-8");
         static void addAttribute(dt::node &, const std::string &, const dt::data &);

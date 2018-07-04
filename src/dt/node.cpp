@@ -1,10 +1,14 @@
 #include "dt/node.hpp"
 
-dp::dt::node::node() {}
+dp::dt::node dp::dt::node::null = dp::dt::node();
 
-dp::dt::node::node(const std::string &name) : _name(name) {}
+dp::dt::node::node() : _null(false) {}
 
-dp::dt::node::node(const std::string &name, const data &value) : _name(name), _value(value) {}
+dp::dt::node::node(bool null) : _null(null) {}
+
+dp::dt::node::node(const std::string &name) : _null(false), _name(name) {}
+
+dp::dt::node::node(const std::string &name, const data &value) : _null(false), _name(name), _value(value) {}
 
 dp::dt::node &dp::dt::node::operator=(const node &other)
 {
@@ -119,16 +123,17 @@ dp::dt::node::const_iterator dp::dt::node::end() const
     return &_childs[_childs.size()];
 }
 
-bool dp::dt::node::operator==(const dp::dt::node &rhs) const
+bool dp::dt::node::operator==(const dp::dt::node &other) const
 {
-    return _name == rhs._name &&
-           _value == rhs._value &&
-           _childs == rhs._childs;
+    return _name == other._name &&
+           _null == other._null &&
+           _value == other._value &&
+           _childs == other._childs;
 }
 
-bool dp::dt::node::operator!=(const dp::dt::node &rhs) const
+bool dp::dt::node::operator!=(const dp::dt::node &other) const
 {
-    return !(rhs == *this);
+    return !(other == *this);
 }
 
 void dp::dt::node::name(const std::string &name)

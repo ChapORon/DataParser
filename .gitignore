@@ -2,3 +2,6 @@
 cmake-build-debug/
 release/
 debug/
+libDataParserD.so
+libDataParser.so
+test/DataParserDTest
