@@ -36,6 +36,4 @@ namespace dp::dt
     };
 }
 
-std::ostream &operator<<(std::ostream &, const dp::XML::data &);
-
 #endif

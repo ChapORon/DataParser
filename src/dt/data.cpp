@@ -54,9 +54,3 @@ const std::string &dp::dt::data::getString() const
 {
     return attributes;
 }
-
-std::ostream &operator<<(std::ostream &os, const dp::dt::data &attribute)
-{
-    os << attribute.getString();
-    return os;
-}
