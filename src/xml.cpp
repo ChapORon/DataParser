@@ -3,7 +3,7 @@
 const std::string dp::xml::str(const dp::dt::node &node, unsigned int indentFactor, unsigned int depth)
 {
     if (node == dt::node::null)
-        return "(null)";
+        return "(null)\n";
     std::string name = node.name();
     std::transform(name.begin(), name.end(), name.begin(), ::tolower);
     std::string tabs;
@@ -14,9 +14,9 @@ const std::string dp::xml::str(const dp::dt::node &node, unsigned int indentFact
         tabs += indent;
     std::string content;
     unsigned int minSize = 0;
-    if (depth == 0 && node.find("__xmldeclarations__"))
+    dt::node elements = node.get("__xmldeclarations__");
+    if (depth == 0 && elements != dt::node::null)
     {
-        dt::node elements = node.get("__xmldeclarations__");
         for (const auto &element : elements)
         {
             content += "<?" + element.name();
@@ -27,9 +27,9 @@ const std::string dp::xml::str(const dp::dt::node &node, unsigned int indentFact
         ++minSize;
     }
     content += tabs + "<" + name;
-    if (node.find("__xmlattributes__"))
+    dt::node attributes = node.get("__xmlattributes__");
+    if (attributes != dt::node::null)
     {
-        dt::node attributes = node.get("__xmlattributes__");
         for (const auto &attribute : attributes)
             content += " " + attribute.name() + "=\"" + attribute.value().getString() + "\"";
         ++minSize;
@@ -361,7 +361,6 @@ bool dp::xml::treatContent(dt::node &node, std::string &content)
         trim(attributes);
         std::string name = split(attributes, " ")[0];
         content = content.substr((pos + 1), content.size());
-        std::transform(name.begin(), name.end(), name.begin(), ::tolower);
         dt::node child(name);
         setAttributes(child, attributes);
         if (!treatContent(child, content))
@@ -375,7 +374,6 @@ bool dp::xml::treatContent(dt::node &node, std::string &content)
         pos = content.find('>');
         std::string closeTag = content.substr(2, pos - 2);
         trim(closeTag);
-        std::transform(closeTag.begin(), closeTag.end(), closeTag.begin(), ::tolower);
         if (node.name() != closeTag)
             return false;
         content = content.substr(pos + 1, content.size());
@@ -421,7 +419,6 @@ dp::dt::node dp::xml::loadFromContent(const std::string &xmlContent)
     {
         std::string closeTag = content.substr(2, content.find('>') - 2);
         trim(closeTag);
-        std::transform(closeTag.begin(), closeTag.end(), closeTag.begin(), ::tolower);
         if (node.name() != closeTag)
             return dt::node::null;
     }

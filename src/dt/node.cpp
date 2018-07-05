@@ -1,6 +1,6 @@
 #include "dt/node.hpp"
 
-dp::dt::node dp::dt::node::null = dp::dt::node();
+const dp::dt::node dp::dt::node::null = dp::dt::node(true);
 
 dp::dt::node::node() : _null(false) {}
 
@@ -22,34 +22,65 @@ void dp::dt::node::add(const node &node)
     _childs.emplace_back(node);
 }
 
-#include <iostream>
+int dp::dt::node::extractPos(std::string &key) const
+{
+    auto pos = key.find('(');
+    auto endPos = key.find(')');
+    if (pos == std::string::npos)
+        return -1;
+    std::string number = key.substr(pos + 1, key.length() - endPos);
+    key = key.substr(0, pos) + key.substr(endPos + 1);
+    return std::stoi(number) - 1;
+}
 
-void dp::dt::node::add(const std::string &key, const data &value)
+void dp::dt::node::add(const std::string &key, const data &value, bool replace)
 {
     unsigned long pos = key.find('.');
     if (pos != std::string::npos)
     {
         std::string name = key.substr(0, pos);
         std::string newKey = key.substr(pos + 1);
+        int nb = extractPos(name);
         for (auto &child : _childs)
         {
             if (child.name() == name)
             {
-                child.add(newKey, value);
-                return;
+                if (nb >= -1)
+                    --nb;
+                if (nb < 0)
+                {
+                    child.add(newKey, value);
+                    return;
+                }
             }
         }
+        if (nb > 0)
+            return;
         _childs.emplace_back(node(name));
         _childs[_childs.size() - 1].add(newKey, value);
     }
     else
     {
-        for (auto &pair : _childs)
+        std::string name = key;
+        int nb = extractPos(name);
+        if (replace)
         {
-            if (pair.name() == key)
-                pair._value = value;
+            for (auto &child : _childs)
+            {
+                if (child.name() == name)
+                {
+                    if (nb <= 0)
+                    {
+                        child._value = value;
+                        return;
+                    }
+                    --nb;
+                }
+                if (nb == 0)
+                    return;
+            }
         }
-        _childs.emplace_back(node(key, value));
+        _childs.emplace_back(node(name, value));
     }
 }
 const dp::dt::data &dp::dt::node::value() const
@@ -67,35 +98,55 @@ const std::vector<dp::dt::node> &dp::dt::node::childs() const
     return _childs;
 }
 
-dp::dt::node &dp::dt::node::get(const std::string &path)
-{
-    for (auto &child : _childs)
-    {
-        if (child.name() == path)
-            return child;
-    }
-    _childs.emplace_back(node(path));
-    return _childs[_childs.size() - 1];
-}
-
 bool dp::dt::node::find(const std::string &key) const
 {
-    for (const auto &child : _childs)
-    {
-        if (child.name() == key)
-            return true;
-    }
-    return false;
+    return get(key) != dt::node::null;
 }
 
-const dp::dt::node &dp::dt::node::get(const std::string &path) const
+const dp::dt::node &dp::dt::node::get(const std::string &key) const
 {
-    for (auto &child : _childs)
+    unsigned long pos = key.find('.');
+    if (pos != std::string::npos)
     {
-        if (child.name() == path)
-            return child;
+        std::string name = key.substr(0, pos);
+        std::string newKey = key.substr(pos + 1);
+        int nb = extractPos(name);
+        for (auto &child : _childs)
+        {
+            if (child.name() == name)
+            {
+                if (nb >= -2)
+                    --nb;
+                if (nb < 0)
+                {
+                    auto &ret = child.get(newKey);
+                    if (ret != dt::node::null)
+                        return ret;
+                    else if (nb == -1)
+                        return dt::node::null;
+                }
+            }
+        }
+        return dt::node::null;
     }
-    throw std::exception();
+    else
+    {
+        std::string name = key;
+        int nb = extractPos(name);
+        for (auto &child : _childs)
+        {
+            if (child.name() == name)
+            {
+                if (nb >= -2)
+                    --nb;
+                if (nb < 0)
+                    return child;
+                if (nb == -1)
+                    return dt::node::null;
+            }
+        }
+        return dt::node::null;
+    }
 }
 
 void dp::dt::node::value(const dp::dt::data &value)
@@ -125,6 +176,8 @@ dp::dt::node::const_iterator dp::dt::node::end() const
 
 bool dp::dt::node::operator==(const dp::dt::node &other) const
 {
+    if (_null && other._null)
+        return true;
     return _name == other._name &&
            _null == other._null &&
            _value == other._value &&

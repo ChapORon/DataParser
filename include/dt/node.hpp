@@ -12,7 +12,7 @@ namespace dp::dt
     class node
     {
     public:
-        static node null;
+        static const node null;
         typedef node *iterator;
         typedef const node *const_iterator;
     private:
@@ -21,8 +21,9 @@ namespace dp::dt
         data _value;
         std::vector<node> _childs;
 
-    protected:
+    private:
         node(bool);
+        int extractPos(std::string &) const;
 
     public:
         node();
@@ -32,8 +33,7 @@ namespace dp::dt
         void name(const std::string &_name);
         void value(const data &);
         void add(const node &);
-        void add(const std::string &, const data &);
-        node &get(const std::string &);
+        void add(const std::string &, const data &, bool = false);
         const node &get(const std::string &) const;
         const data &value() const;
         const std::string &name() const;
