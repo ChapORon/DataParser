@@ -1,6 +1,7 @@
 #ifndef DATAPARSER_XML_HPP
 #define DATAPARSER_XML_HPP
 
+#include <algorithm>
 #include <fstream>
 #include "dt/node.hpp"
 #include "parser.hpp"

@@ -365,7 +365,7 @@ bool dp::xml::treatContent(dt::node &node, std::string &content)
         setAttributes(child, attributes);
         if (!treatContent(child, content))
             return false;
-        node.add(child);
+        node.add(child.name(), child);
         if (start_with(content, "\n"))
             content = content.substr(1, content.size());
     }

@@ -17,11 +17,6 @@ dp::dt::node &dp::dt::node::operator=(const node &other)
     return *this;
 }
 
-void dp::dt::node::add(const node &node)
-{
-    _childs.emplace_back(node);
-}
-
 int dp::dt::node::extractPos(std::string &key) const
 {
     auto pos = key.find('(');
@@ -34,6 +29,23 @@ int dp::dt::node::extractPos(std::string &key) const
 }
 
 void dp::dt::node::add(const std::string &key, const data &value, bool replace)
+{
+    std::string name = key;
+    unsigned long pos = name.find('.');
+    if (pos == std::string::npos)
+    {
+        add(key, node(key, value), replace);
+        return;
+    }
+    while (pos != std::string::npos)
+    {
+        name = name.substr(pos + 1);
+        pos = name.find('.');
+    }
+    add(key, node(name, value), replace);
+}
+
+void dp::dt::node::add(const std::string &key, const node &value, bool replace)
 {
     unsigned long pos = key.find('.');
     if (pos != std::string::npos)
@@ -71,7 +83,7 @@ void dp::dt::node::add(const std::string &key, const data &value, bool replace)
                 {
                     if (nb <= 0)
                     {
-                        child._value = value;
+                        child._value = value._value;
                         return;
                     }
                     --nb;
@@ -80,9 +92,10 @@ void dp::dt::node::add(const std::string &key, const data &value, bool replace)
                     return;
             }
         }
-        _childs.emplace_back(node(name, value));
+        _childs.emplace_back(value);
     }
 }
+
 const dp::dt::data &dp::dt::node::value() const
 {
     return _value;

@@ -1,7 +1,7 @@
 #ifndef DATAPARSER_DATATREE_NODE_HPP
 #define DATAPARSER_DATATREE_NODE_HPP
 
-#include <algorithm>
+#include <iostream>
 #include <sstream>
 #include <utility>
 #include <vector>
@@ -32,8 +32,8 @@ namespace dp::dt
         node &operator=(const node &);
         void name(const std::string &_name);
         void value(const data &);
-        void add(const node &);
         void add(const std::string &, const data &, bool = false);
+        void add(const std::string &, const node &, bool = false);
         const node &get(const std::string &) const;
         const data &value() const;
         const std::string &name() const;
