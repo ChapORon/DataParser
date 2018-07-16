@@ -9,6 +9,7 @@
 #include <unistd.h>
 
 #define Test(x) void x()
+#define STest(x) static void x()
 
 #ifdef __cplusplus
 #define CXXTest(nspace, x) void nspace::x()

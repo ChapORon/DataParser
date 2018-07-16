@@ -13,7 +13,13 @@ namespace dp::dt
 
     public:
         data();
+        data(const char *);
         data(const std::string &);
+        data(bool);
+        data(int);
+        data(float);
+        data(double);
+        data(long);
         data(const data &);
         data &operator=(const std::string &);
         data &operator=(const data &);

@@ -8,6 +8,6 @@
 class TestJson
 {
 public:
-    static Test(test_extract_json);
-    static Test(test_create_json);
+    STest(test_extract_json);
+    STest(test_create_json);
 };

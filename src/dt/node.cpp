@@ -6,7 +6,11 @@ dp::dt::node::node() : _null(false) {}
 
 dp::dt::node::node(bool null) : _null(null) {}
 
+dp::dt::node::node(const char *name) : _null(false), _name(name) {}
+
 dp::dt::node::node(const std::string &name) : _null(false), _name(name) {}
+
+dp::dt::node::node(const char *name, const data &value) : _null(false), _name(name), _value(value) {}
 
 dp::dt::node::node(const std::string &name, const data &value) : _null(false), _name(name), _value(value) {}
 
@@ -33,16 +37,16 @@ void dp::dt::node::add(const std::string &key, const data &value, bool replace)
     std::string name = key;
     unsigned long pos = name.find('.');
     if (pos == std::string::npos)
-    {
         add(key, node(key, value), replace);
-        return;
-    }
-    while (pos != std::string::npos)
+    else
     {
-        name = name.substr(pos + 1);
-        pos = name.find('.');
+        while (pos != std::string::npos)
+        {
+            name = name.substr(pos + 1);
+            pos = name.find('.');
+        }
+        add(key, node(name, value), replace);
     }
-    add(key, node(name, value), replace);
 }
 
 void dp::dt::node::add(const std::string &key, const node &value, bool replace)
@@ -159,6 +163,58 @@ const dp::dt::node &dp::dt::node::get(const std::string &key) const
             }
         }
         return dt::node::null;
+    }
+}
+
+bool dp::dt::node::remove(const std::string &key)
+{
+    unsigned long pos = key.find('.');
+    unsigned int nodeToRemove = 0;
+    if (pos != std::string::npos)
+    {
+        std::string name = key.substr(0, pos);
+        std::string newKey = key.substr(pos + 1);
+        int nb = extractPos(name);
+        for (auto &child : _childs)
+        {
+            if (child.name() == name)
+            {
+                if (nb >= -2)
+                    --nb;
+                if (nb < 0)
+                {
+                    bool ret = child.remove(newKey);
+                    if (ret)
+                        return true;
+                    else if (nb == -1)
+                        return false;
+                }
+            }
+            ++nodeToRemove;
+        }
+        return false;
+    }
+    else
+    {
+        std::string name = key;
+        int nb = extractPos(name);
+        for (auto &child : _childs)
+        {
+            if (child.name() == name)
+            {
+                if (nb >= -2)
+                    --nb;
+                if (nb < 0)
+                {
+                    _childs.erase(_childs.begin() + nodeToRemove);
+                    return true;
+                }
+                if (nb == -1)
+                    return false;
+            }
+            ++nodeToRemove;
+        }
+        return false;
     }
 }
 

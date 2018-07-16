@@ -8,7 +8,6 @@
 class TestXml
 {
 public:
-    static Test(test_load_xml);
-    static Test(test_create_xml);
-    static Test(test_get_xml);
+    STest(test_extract_xml);
+    STest(test_create_xml);
 };

@@ -2,7 +2,19 @@
 
 dp::dt::data::data() : isEmpty(true) {}
 
+dp::dt::data::data(const char *attributes) : isEmpty(attributes[0] == '\0'), attributes(attributes) {}
+
 dp::dt::data::data(const std::string &attributes) : isEmpty(attributes.empty()), attributes(attributes) {}
+
+dp::dt::data::data(bool attribute) : isEmpty(false), attributes((attribute) ? "true" : "false") {}
+
+dp::dt::data::data(int attribute) : isEmpty(false), attributes(std::to_string(attribute)) {}
+
+dp::dt::data::data(float attribute) : isEmpty(false), attributes(std::to_string(attribute)) {}
+
+dp::dt::data::data(double attribute) : isEmpty(false), attributes(std::to_string(attribute)) {}
+
+dp::dt::data::data(long attribute) : isEmpty(false), attributes(std::to_string(attribute)) {}
 
 dp::dt::data::data(const data &other) : isEmpty(other.attributes.empty()), attributes(other.attributes) {}
 

@@ -100,22 +100,6 @@ dp::dt::node dp::xml::loadFromFile(const std::string &path)
     return node;
 }
 
-std::string dp::xml::treatCommentary(std::string &content)
-{
-    size_t pos = 0, next_pos = 0;
-    while ((pos = content.find("<!--", pos)) != std::string::npos)
-    {
-        if (content.find("--->", pos) != std::string::npos)
-            return "";
-        else if ((next_pos = content.find("-->", pos)) != std::string::npos)
-            content = content.substr(0, pos) + content.substr((next_pos + 3), content.size());
-        else
-            return "";
-    }
-    replace_all(content, "\n\n", "\n");
-    return content;
-}
-
 dp::dt::node dp::xml::loadFromStream(std::istream &stream)
 {
     std::string content, line;
@@ -394,6 +378,22 @@ std::string dp::xml::extractName(std::string &content)
     std::string name = split(attributes, " ")[0];
     content = content.substr((pos + 1), content.size());
     return name;
+}
+
+std::string dp::xml::treatCommentary(std::string &content)
+{
+    size_t pos = 0, next_pos = 0;
+    while ((pos = content.find("<!--", pos)) != std::string::npos)
+    {
+        if (content.find("--->", pos) != std::string::npos)
+            return "";
+        else if ((next_pos = content.find("-->", pos)) != std::string::npos)
+            content = content.substr(0, pos) + content.substr((next_pos + 3), content.size());
+        else
+            return "";
+    }
+    replace_all(content, "\n\n", "\n");
+    return content;
 }
 
 dp::dt::node dp::xml::loadFromContent(const std::string &xmlContent)

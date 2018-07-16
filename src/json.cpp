@@ -1,9 +1,45 @@
+#include <dt/node.hpp>
 #include "json.hpp"
 
 void dp::json::addToArray(dp::dt::node &node, const std::string &key, const std::string &element)
 {
     std::string newKey = key + ".array";
     node.add(newKey, dp::dt::node("", dp::dt::data(element)));
+}
+
+void dp::json::addArray(dp::dt::node &node, const std::string &key, const std::vector<bool> &array)
+{
+    std::string newKey = key + ".array";
+    for (const auto &element : array)
+        node.add(newKey, dp::dt::node("", dp::dt::data(element)));
+}
+
+void dp::json::addArray(dp::dt::node &node, const std::string &key, const std::vector<int> &array)
+{
+    std::string newKey = key + ".array";
+    for (const auto &element : array)
+        node.add(newKey, dp::dt::node("", dp::dt::data(element)));
+}
+
+void dp::json::addArray(dp::dt::node &node, const std::string &key, const std::vector<float> &array)
+{
+    std::string newKey = key + ".array";
+    for (const auto &element : array)
+        node.add(newKey, dp::dt::node("", dp::dt::data(element)));
+}
+
+void dp::json::addArray(dp::dt::node &node, const std::string &key, const std::vector<double> &array)
+{
+    std::string newKey = key + ".array";
+    for (const auto &element : array)
+        node.add(newKey, dp::dt::node("", dp::dt::data(element)));
+}
+
+void dp::json::addArray(dp::dt::node &node, const std::string &key, const std::vector<long> &array)
+{
+    std::string newKey = key + ".array";
+    for (const auto &element : array)
+        node.add(newKey, dp::dt::node("", dp::dt::data(element)));
 }
 
 void dp::json::addArray(dp::dt::node &node, const std::string &key, const std::vector<std::string> &array)
@@ -80,4 +116,34 @@ const std::string dp::json::str(const dp::dt::node &node, unsigned int indentFac
 void dp::json::write(const dp::dt::node &node, std::ostream &os, unsigned int indentFactor)
 {
     os << str(node, indentFactor);
+}
+
+dp::dt::node dp::json::loadFromFile(const std::string &path)
+{
+    std::ifstream fileStream(path.c_str());
+    return loadFromStream(fileStream);
+}
+
+dp::dt::node dp::json::loadFromStream(std::istream &stream)
+{
+    std::string content, line;
+    while (std::getline(stream, line))
+    {
+        trim(line);
+        if (!line.empty())
+        {
+            content += line;
+            content += '\n';
+        }
+    }
+    return loadFromContent(content);
+}
+
+dp::dt::node dp::json::loadFromContent(const std::string &jsonContent)
+{
+    std::string content = jsonContent;
+    if (content.empty())
+        return dt::node::null;
+    dp::dt::node node;
+    return node;
 }

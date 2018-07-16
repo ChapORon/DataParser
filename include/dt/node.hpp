@@ -27,13 +27,16 @@ namespace dp::dt
 
     public:
         node();
+        node(const char *);
         node(const std::string &);
+        node(const char *, const data &);
         node(const std::string &, const data &);
         node &operator=(const node &);
         void name(const std::string &_name);
         void value(const data &);
         void add(const std::string &, const data &, bool = false);
         void add(const std::string &, const node &, bool = false);
+        bool remove(const std::string &);
         const node &get(const std::string &) const;
         const data &value() const;
         const std::string &name() const;
