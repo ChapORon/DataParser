@@ -1,6 +1,6 @@
-#include "mew.hpp"
+#include "sppt.hpp"
 
-std::string dp::mew::getValue(const dp::dt::data &data)
+std::string dp::sppt::getValue(const dp::dt::data &data)
 {
     std::string value = data.getString();
     if (value == "true")
@@ -12,13 +12,17 @@ std::string dp::mew::getValue(const dp::dt::data &data)
     return '"' + value + '"';
 }
 
-const std::string dp::mew::str(const dp::dt::node &node, unsigned int depth)
+const std::string dp::sppt::str(const dp::dt::node &node, unsigned int depth)
 {
     if (node == dt::node::null)
         return "(null)\n";
     std::string tabs;
-    for (size_t n = 0; n != depth; ++n)
+    if (depth > 0)
+    {
+        if (depth > 1)
+            tabs = std::to_string(depth);
         tabs += '\t';
+    }
     std::string value = node.value().getString();
     std::string content = tabs;
     if (value.empty())
@@ -32,7 +36,7 @@ const std::string dp::mew::str(const dp::dt::node &node, unsigned int depth)
     return content;
 }
 
-void dp::mew::write(const dp::dt::node &node, std::ostream &os)
+void dp::sppt::write(const dp::dt::node &node, std::ostream &os)
 {
     os << str(node);
 }

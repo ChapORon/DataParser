@@ -8,7 +8,7 @@
 
 namespace dp
 {
-    class mew : public parser
+    class sppt : public parser
     {
     private:
         static std::string getValue(const dt::data &);
