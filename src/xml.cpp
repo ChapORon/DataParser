@@ -34,12 +34,12 @@ const std::string dp::xml::str(const dp::dt::node &node, unsigned int indentFact
             content += " " + attribute.name() + "=\"" + attribute.value().getString() + "\"";
         ++minSize;
     }
-    if (!node.value() && node.childs().size() == minSize)
+    if (node.value().empty() && node.childs().size() == minSize)
         content += " />\n";
     else
     {
         content += ">\n";
-        if (node.value())
+        if (!node.value().empty())
         {
             content += tabs;
             content += indent;

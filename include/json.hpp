@@ -14,12 +14,13 @@ namespace dp
         static std::string getValue(const dt::data &);
     public:
         static void addToArray(dt::node &, const std::string &, const std::string &);
-        static void addArray(dt::node &, const std::string &, const std::vector<bool> &);
-        static void addArray(dt::node &, const std::string &, const std::vector<int> &);
-        static void addArray(dt::node &, const std::string &, const std::vector<float> &);
-        static void addArray(dt::node &, const std::string &, const std::vector<double> &);
-        static void addArray(dt::node &, const std::string &, const std::vector<long> &);
-        static void addArray(dt::node &, const std::string &, const std::vector<std::string> &);
+        template <typename T>
+        static void addArray(dt::node &node, const std::string &key, const std::vector<T> &array)
+        {
+            std::string newKey = key + ".array";
+            for (const auto &element : array)
+                node.add(newKey, dp::dt::node("", dp::dt::data(element)));
+        }
         static const std::string str(const dt::node &, unsigned int = 2, unsigned int = 0);
         static void write(const dt::node &, std::ostream &, unsigned int = 2);
         static dt::node loadFromFile(const std::string &);

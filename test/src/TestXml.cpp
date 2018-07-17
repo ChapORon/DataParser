@@ -15,5 +15,18 @@ CXXTest(TestXml, test_create_xml)
     head.add("testeuh.test", dp::dt::data(12));
     head.add("testeuh.block.test", dp::dt::data(12));
     std::string expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<head test=\"12\">\n<testeuh>\n<test>\n12\n</test>\n<block>\n<test>\n12\n</test>\n</block>\n</testeuh>\n</head>\n";
+    //<?xml version="1.0" encoding="UTF-8"?>
+    //<head test="12">
+    //  <testeuh>
+    //    <test>
+    //      12
+    //    </test>
+    //    <block>
+    //      <test>
+    //        12
+    //      </test>
+    //    </block>
+    //  </testeuh>
+    //</head>
     assert_true(dp::xml::str(head, 0) == expected);
 }

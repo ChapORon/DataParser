@@ -4,10 +4,11 @@ std::string dp::sppt::getValue(const dp::dt::data &data)
 {
     std::string value = data.getString();
     if (value == "true")
-        return "t";
+        return "tr";
     else if (value == "false")
-        return "f";
-    else if(std::regex_match(value, std::regex("^[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?$")))
+        return "fa";
+    else if(std::regex_match(value, std::regex("^[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?$")) ||
+            value.length() == 1)
         return value;
     return '"' + value + '"';
 }

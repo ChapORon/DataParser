@@ -7,48 +7,6 @@ void dp::json::addToArray(dp::dt::node &node, const std::string &key, const std:
     node.add(newKey, dp::dt::node("", dp::dt::data(element)));
 }
 
-void dp::json::addArray(dp::dt::node &node, const std::string &key, const std::vector<bool> &array)
-{
-    std::string newKey = key + ".array";
-    for (const auto &element : array)
-        node.add(newKey, dp::dt::node("", dp::dt::data(element)));
-}
-
-void dp::json::addArray(dp::dt::node &node, const std::string &key, const std::vector<int> &array)
-{
-    std::string newKey = key + ".array";
-    for (const auto &element : array)
-        node.add(newKey, dp::dt::node("", dp::dt::data(element)));
-}
-
-void dp::json::addArray(dp::dt::node &node, const std::string &key, const std::vector<float> &array)
-{
-    std::string newKey = key + ".array";
-    for (const auto &element : array)
-        node.add(newKey, dp::dt::node("", dp::dt::data(element)));
-}
-
-void dp::json::addArray(dp::dt::node &node, const std::string &key, const std::vector<double> &array)
-{
-    std::string newKey = key + ".array";
-    for (const auto &element : array)
-        node.add(newKey, dp::dt::node("", dp::dt::data(element)));
-}
-
-void dp::json::addArray(dp::dt::node &node, const std::string &key, const std::vector<long> &array)
-{
-    std::string newKey = key + ".array";
-    for (const auto &element : array)
-        node.add(newKey, dp::dt::node("", dp::dt::data(element)));
-}
-
-void dp::json::addArray(dp::dt::node &node, const std::string &key, const std::vector<std::string> &array)
-{
-    std::string newKey = key + ".array";
-    for (const auto &element : array)
-        node.add(newKey, dp::dt::node("", dp::dt::data(element)));
-}
-
 std::string dp::json::getValue(const dp::dt::data &data)
 {
     std::string value = data.getString();
