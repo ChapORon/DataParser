@@ -44,3 +44,33 @@ void dp::srpt::write(const dp::dt::node &node, std::ostream &os, unsigned int in
 {
     os << str(node, indentFactor);
 }
+
+dp::dt::node dp::srpt::loadFromFile(const std::string &path)
+{
+    std::ifstream fileStream(path.c_str());
+    return loadFromStream(fileStream);
+}
+
+dp::dt::node dp::srpt::loadFromStream(std::istream &stream)
+{
+    std::string content, line;
+    while (std::getline(stream, line))
+    {
+        trim(line);
+        if (!line.empty())
+        {
+            content += line;
+            content += '\n';
+        }
+    }
+    return loadFromContent(content);
+}
+
+dp::dt::node dp::srpt::loadFromContent(const std::string &srptContent)
+{
+    std::string content = srptContent;
+    if (content.empty())
+        return dt::node::null;
+    dp::dt::node node;
+    return node;
+}

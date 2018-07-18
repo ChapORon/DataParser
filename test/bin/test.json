@@ -1,0 +1,19 @@
+{
+  "head": {
+    "__xmldeclarations__": {
+      "xml": {
+        "version": 1.0,
+        "encoding": "UTF-8"
+      }
+    },
+    "__xmlattributes__": {
+      "test": 12
+    },
+    "testeuh": {
+      "test": 12,
+      "block": {
+        "test": 12
+      }
+    }
+  }
+}

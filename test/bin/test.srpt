@@ -1,0 +1,11 @@
+head
+    __xmldeclarations__
+2   xml
+3   "version":1.0
+3   "encoding":"UTF-8"
+    __xmlattributes__
+2   "test":12
+    testeuh
+2   "test":12
+2   block
+3   "test":12

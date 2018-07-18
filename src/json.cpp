@@ -23,10 +23,13 @@ const std::string dp::json::str(const dp::dt::node &node, unsigned int indentFac
         return "(null)\n";
     std::string tabs;
     std::string indent(indentFactor, ' ');
-    for (size_t n = 0; n != depth; ++n)
+    for (size_t n = 0; n != (depth + 1); ++n)
         tabs += indent;
     std::string value = node.value().getString();
-    std::string content = tabs;
+    std::string content;
+    if (depth == 0)
+        content = "{\n";
+    content += tabs;
     if (!node.name().empty())
         content += '"' + node.name() + "\": ";
     if (!value.empty())
@@ -66,6 +69,8 @@ const std::string dp::json::str(const dp::dt::node &node, unsigned int indentFac
             content += '}';
         content += '\n';
     }
+    if (depth == 0)
+        content += "}\n";
     return content;
 }
 

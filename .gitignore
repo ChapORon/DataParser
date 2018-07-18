@@ -6,4 +6,4 @@ release/
 debug/
 libDataParserD.so
 libDataParser.so
-test/DataParserDTest
+test/bin/DataParserDTest

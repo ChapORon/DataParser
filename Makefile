@@ -4,15 +4,15 @@ SHADOW_BUILD_DEBUG_DIR = debug
 
 OUTPUT_DIR = .
 
-TEST_OUTPUT_DIR = test
+TEST_OUTPUT_DIR = test/bin
 
 LIBNAME = DataParser
 
-NAME = $(OUTPUT_DIR)/lib$(LIBNAME).so
+NAME = lib$(LIBNAME).so
 
-DEBUG = $(OUTPUT_DIR)/lib$(LIBNAME)D.so
+DEBUG = lib$(LIBNAME)D.so
 
-TEST = $(TEST_OUTPUT_DIR)/$(LIBNAME)DTest
+TEST = $(LIBNAME)DTest
 
 all: release
 
@@ -20,7 +20,7 @@ $(TEST) :
 	mkdir -p $(SHADOW_BUILD_DIR)
 	cd $(SHADOW_BUILD_DIR) && cmake -DCMAKE_BUILD_TYPE=Test ..
 	make -j8 -C $(SHADOW_BUILD_DIR)
-	@$(TEST)
+	cd $(TEST_OUTPUT_DIR) && ./$(TEST)
 
 $(NAME) :
 	mkdir -p $(SHADOW_BUILD_DIR)
@@ -43,9 +43,9 @@ clean :
 	rm -Rf $(SHADOW_BUILD_DEBUG_DIR)
 
 fclean : clean
-	rm -Rf $(NAME)
-	rm -Rf $(TEST)
-	rm -Rf $(DEBUG)
+	rm -Rf $(OUTPUT_DIR)/$(NAME)
+	rm -Rf $(TEST_OUTPUT_DIR)/$(TEST)
+	rm -Rf $(OUTPUT_DIR)/$(DEBUG)
 
 re: fclean all
 
