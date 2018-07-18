@@ -1,5 +1,5 @@
-#ifndef DATAPARSER_MEW_HPP
-#define DATAPARSER_MEW_HPP
+#ifndef DATAPARSER_JSON_HPP
+#define DATAPARSER_JSON_HPP
 
 #include <fstream>
 #include <regex>
@@ -29,4 +29,4 @@ namespace dp
     };
 }
 
-#endif //DATAPARSER_MEW_HPP
+#endif //DATAPARSER_JSON_HPP

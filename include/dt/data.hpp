@@ -1,5 +1,5 @@
-#ifndef GALAXY_XML_ATTRIBUTES_HPP
-#define GALAXY_XML_ATTRIBUTES_HPP
+#ifndef DATAPARSER_DATATREE_DATA_HPP
+#define DATAPARSER_DATATREE_DATA_HPP
 
 #include <string>
 
@@ -71,4 +71,4 @@ namespace dp::dt
     };
 }
 
-#endif
+#endif //DATAPARSER_DATATREE_DATA_HPP

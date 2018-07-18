@@ -28,13 +28,13 @@ set(SOURCE_FILES
         ${INCPATH}/dt/node.hpp
         ${INCPATH}/json.hpp
         ${INCPATH}/parser.hpp
-        ${INCPATH}/sppt.hpp
+        ${INCPATH}/srpt.hpp
         ${INCPATH}/xml.hpp
         ${SRCPATH}/dt/data.cpp
         ${SRCPATH}/dt/node.cpp
         ${SRCPATH}/json.cpp
         ${SRCPATH}/parser.cpp
-        ${SRCPATH}/sppt.cpp
+        ${SRCPATH}/srpt.cpp
         ${SRCPATH}/xml.cpp)
 
 add_library(${NAME} SHARED ${SOURCE_FILES})

@@ -1,6 +1,6 @@
-#include "sppt.hpp"
+#include "srpt.hpp"
 
-std::string dp::sppt::getValue(const dp::dt::data &data)
+std::string dp::srpt::getValue(const dp::dt::data &data)
 {
     std::string value = data.getString();
     if (value == "true")
@@ -13,7 +13,7 @@ std::string dp::sppt::getValue(const dp::dt::data &data)
     return '"' + value + '"';
 }
 
-const std::string dp::sppt::str(const dp::dt::node &node, unsigned int depth)
+const std::string dp::srpt::str(const dp::dt::node &node, unsigned int indentFactor, unsigned int depth)
 {
     if (node == dt::node::null)
         return "(null)\n";
@@ -22,7 +22,10 @@ const std::string dp::sppt::str(const dp::dt::node &node, unsigned int depth)
     {
         if (depth > 1)
             tabs = std::to_string(depth);
-        tabs += '\t';
+        if (indentFactor == 0)
+            tabs += '\t';
+        else
+            tabs += std::string(indentFactor, ' ');
     }
     std::string value = node.value().getString();
     std::string content = tabs;
@@ -33,11 +36,11 @@ const std::string dp::sppt::str(const dp::dt::node &node, unsigned int depth)
     content += '\n';
     auto tags = node.childs();
     for (const auto &tag : tags)
-        content += str(tag, depth + 1);
+        content += str(tag, indentFactor, depth + 1);
     return content;
 }
 
-void dp::sppt::write(const dp::dt::node &node, std::ostream &os)
+void dp::srpt::write(const dp::dt::node &node, std::ostream &os, unsigned int indentFactor)
 {
-    os << str(node);
+    os << str(node, indentFactor);
 }

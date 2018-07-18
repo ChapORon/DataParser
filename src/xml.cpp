@@ -6,10 +6,8 @@ const std::string dp::xml::str(const dp::dt::node &node, unsigned int indentFact
         return "(null)\n";
     std::string name = node.name();
     std::transform(name.begin(), name.end(), name.begin(), ::tolower);
+    std::string indent(indentFactor, ' ');
     std::string tabs;
-    std::string indent;
-    for (unsigned int i = 0; i != indentFactor; ++i)
-        indent += ' ';
     for (size_t n = 0; n != depth; ++n)
         tabs += indent;
     std::string content;

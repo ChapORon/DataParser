@@ -22,9 +22,7 @@ const std::string dp::json::str(const dp::dt::node &node, unsigned int indentFac
     if (node == dt::node::null)
         return "(null)\n";
     std::string tabs;
-    std::string indent;
-    for (unsigned int i = 0; i != indentFactor; ++i)
-        indent += ' ';
+    std::string indent(indentFactor, ' ');
     for (size_t n = 0; n != depth; ++n)
         tabs += indent;
     std::string value = node.value().getString();

@@ -1,11 +1,11 @@
-#include "TestSppt.hpp"
+#include "TestSrpt.hpp"
 
-CXXTest(TestSppt, test_extract_sppt)
+CXXTest(TestSrpt, test_extract_srpt)
 {
 
 }
 
-CXXTest(TestSppt, test_create_sppt)
+CXXTest(TestSrpt, test_create_srpt)
 {
     std::vector<int> array = {1, 2, 3};
     dp::dt::node head("head");
@@ -22,5 +22,5 @@ CXXTest(TestSppt, test_create_sppt)
     //2       "test":12
     //3       "innerBlockFloat":12.3
     //3       "innerBlockString":"String"
-    assert_true(dp::sppt::str(head, 0) == expected);
+    assert_true(dp::srpt::str(head) == expected);
 }

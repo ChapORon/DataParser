@@ -7,7 +7,7 @@ CXXTest(TestNode, test_add_node)
     head.add("test.value", dp::dt::data(2));
     head.add("test.value", dp::dt::data(3));
     std::string expected = "head\n\ttest\n2\t\"value\":1\n2\t\"value\":2\n2\t\"value\":3\n";
-    assert_true(dp::sppt::str(head) == expected);
+    assert_true(dp::srpt::str(head) == expected);
 }
 
 CXXTest(TestNode, test_get_node)
@@ -28,8 +28,8 @@ CXXTest(TestNode, test_del_node)
     head.add("test.value", dp::dt::data(3));
     head.remove("test.value(3)");
     std::string expected = "head\n\ttest\n2\t\"value\":1\n2\t\"value\":2\n";
-    assert_true(dp::sppt::str(head) == expected);
+    assert_true(dp::srpt::str(head) == expected);
     head.remove("test.value");
     expected = "head\n\ttest\n2\t\"value\":2\n";
-    assert_true(dp::sppt::str(head) == expected);
+    assert_true(dp::srpt::str(head) == expected);
 }

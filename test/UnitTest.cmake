@@ -13,12 +13,12 @@ set(SOURCES_FILES_TEST
         ${TEST_INCPATH}/test.h
         ${TEST_INCPATH}/TestJson.hpp
         ${TEST_INCPATH}/TestNode.hpp
-        ${TEST_INCPATH}/TestSppt.hpp
+        ${TEST_INCPATH}/TestSrpt.hpp
         ${TEST_INCPATH}/TestXml.hpp
         ${TEST_SRCPATH}/test.c
         ${TEST_SRCPATH}/TestJson.cpp
         ${TEST_SRCPATH}/TestNode.cpp
-        ${TEST_SRCPATH}/TestSppt.cpp
+        ${TEST_SRCPATH}/TestSrpt.cpp
         ${TEST_SRCPATH}/TestXml.cpp
         ${TEST_SRCPATH}/main.cpp)
 

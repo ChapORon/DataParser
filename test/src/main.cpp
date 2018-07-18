@@ -1,12 +1,12 @@
 #include "TestJson.hpp"
 #include "TestNode.hpp"
-#include "TestSppt.hpp"
+#include "TestSrpt.hpp"
 #include "TestXml.hpp"
 
 int main(int ac, char **av)
 {
-    //test_register("test_extract_sppt", &TestSppt::test_extract_sppt);
-    test_register("test_create_sppt", &TestSppt::test_create_sppt);
+    //test_register("test_extract_sppt", &TestSrpt::test_extract_srpt);
+    test_register("test_create_sppt", &TestSrpt::test_create_srpt);
     test_register("test_add_node", &TestNode::test_add_node);
     test_register("test_del_node", &TestNode::test_del_node);
     test_register("test_get_node", &TestNode::test_get_node);
