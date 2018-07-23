@@ -32,9 +32,9 @@ void dp::parser::trim(std::string &str)
 {
     replace_all(str, "\t", " ");
     replace_all(str, "  ", " ");
-    if (str.find_first_of(' ') == 0)
+    if (str[0] == ' ')
         str = str.substr(1);
-    if (str.find_last_of(' ') == str.length() - 1)
+    if (str[str.length() - 1] == ' ')
         str = str.substr(0, str.length() - 1);
 }
 
