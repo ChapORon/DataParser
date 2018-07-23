@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/times.h>
 #include <sys/wait.h>
 #include <unistd.h>
 
@@ -15,6 +16,7 @@
 #define CXXTest(nspace, x) void nspace::x()
 extern "C" {
 #endif
+void timer_register(const char *name, void (*fct)());
 void test_register(const char *name, void (*fct)());
 void assert_true(bool test);
 void assert_false(bool test);
