@@ -1,13 +1,24 @@
 #include "parser.hpp"
 
-bool dp::parser::start_with(const std::string &str, const std::string &regex)
+bool dp::parser::start_with(const std::string &str, const std::string &search)
 {
-    return (str.find(regex) == 0);
+    for (unsigned long n = 0; n != search.length(); ++n)
+    {
+        if (str[n] != search[n])
+            return false;
+    }
+    return true;
 }
 
-bool dp::parser::end_with(const std::string &str, const std::string &regex)
+bool dp::parser::end_with(const std::string &str, const std::string &search)
 {
-    return (str.find(regex, (str.size() - regex.size())) == (str.size() - regex.size()));
+    unsigned long strlen = str.length() - 1, searchlen = search.length() - 1;
+    for (unsigned long n = search.length(); n != 0; --n)
+    {
+        if (str[strlen + n] != search[searchlen - n])
+            return false;
+    }
+    return (str[strlen] == search[searchlen]);
 }
 
 void dp::parser::replace_all(std::string &str, const std::string &search, const std::string &replace)

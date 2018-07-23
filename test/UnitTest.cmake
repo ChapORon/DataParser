@@ -11,15 +11,19 @@ set(TEST_INCPATH ${CMAKE_CURRENT_SOURCE_DIR}/test/include)
 
 set(SOURCES_FILES_TEST
         ${TEST_INCPATH}/test.h
+        ${TEST_INCPATH}/BenchXml.hpp
         ${TEST_INCPATH}/TestJson.hpp
         ${TEST_INCPATH}/TestNode.hpp
         ${TEST_INCPATH}/TestSrpt.hpp
         ${TEST_INCPATH}/TestXml.hpp
         ${TEST_SRCPATH}/test.c
+        ${TEST_SRCPATH}/BenchXml.cpp
         ${TEST_SRCPATH}/TestJson.cpp
         ${TEST_SRCPATH}/TestNode.cpp
         ${TEST_SRCPATH}/TestSrpt.cpp
         ${TEST_SRCPATH}/TestXml.cpp
         ${TEST_SRCPATH}/main.cpp)
 
+find_package(Boost REQUIRED)
 add_executable(${NAME}Test ${SOURCE_FILES} ${SOURCES_FILES_TEST})
+target_link_libraries(${NAME}Test ${Boost_LIBRARIES})

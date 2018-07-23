@@ -1,15 +1,5 @@
 #include "TestXml.hpp"
 
-CXXTest(TestXml, test_load_fat_xml)
-{
-    dp::dt::node head = dp::xml::loadFromFile("./fat.xml");
-}
-
-CXXTest(TestXml, test_load_small_xml)
-{
-    dp::dt::node head = dp::xml::loadFromFile("./test.xml");
-}
-
 CXXTest(TestXml, test_extract_xml)
 {
     dp::dt::node head = dp::xml::loadFromFile("./test.xml");
