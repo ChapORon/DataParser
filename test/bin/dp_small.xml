@@ -1,0 +1,27 @@
+<?xml version="1.7" encoding="UTF-8"?>
+<taikai>
+  <array id="1" category="Kodachi" for="8">
+    <configuration>
+      <goldenscore>
+        true
+      </goldenscore>
+      <minute>
+        2
+      </minute>
+      <types>
+        Ippon
+      </types>
+    </configuration>
+    <configuration for="2">
+      <goldenscore>
+        true
+      </goldenscore>
+      <minute>
+        5
+      </minute>
+      <types>
+        Ippon
+      </types>
+    </configuration>
+  </array>
+</taikai>

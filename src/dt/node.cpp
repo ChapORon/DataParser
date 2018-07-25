@@ -100,6 +100,24 @@ void dp::dt::node::add(const std::string &key, const node &value, bool replace)
     }
 }
 
+void dp::dt::node::add(const dp::dt::node &node, bool replace)
+{
+    if (node == null)
+        return;
+    if (replace)
+    {
+        for (auto &child : _childs)
+        {
+            if (child.name() == node.name())
+            {
+                child._value = node._value;
+                return;
+            }
+        }
+    }
+    _childs.emplace_back(node);
+}
+
 const dp::dt::data &dp::dt::node::value() const
 {
     return _value;
@@ -221,6 +239,11 @@ bool dp::dt::node::remove(const std::string &key)
 void dp::dt::node::value(const dp::dt::data &value)
 {
     _value = value;
+}
+
+bool dp::dt::node::empty() const
+{
+    return _name.empty() && _value.empty() && _childs.empty();
 }
 
 dp::dt::node::iterator dp::dt::node::begin()

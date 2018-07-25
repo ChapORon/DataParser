@@ -26,14 +26,20 @@ endif()
 set(SOURCE_FILES
         ${INCPATH}/dt/data.hpp
         ${INCPATH}/dt/node.hpp
+        ${INCPATH}/parser/json.hpp
+        ${INCPATH}/parser/parser.hpp
+        ${INCPATH}/parser/srpt.hpp
+        ${INCPATH}/parser/xml.hpp
         ${INCPATH}/json.hpp
-        ${INCPATH}/parser.hpp
         ${INCPATH}/srpt.hpp
         ${INCPATH}/xml.hpp
         ${SRCPATH}/dt/data.cpp
         ${SRCPATH}/dt/node.cpp
+        ${SRCPATH}/parser/json.cpp
+        ${SRCPATH}/parser/parser.cpp
+        ${SRCPATH}/parser/srpt.cpp
+        ${SRCPATH}/parser/xml.cpp
         ${SRCPATH}/json.cpp
-        ${SRCPATH}/parser.cpp
         ${SRCPATH}/srpt.cpp
         ${SRCPATH}/xml.cpp)
 

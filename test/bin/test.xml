@@ -2,7 +2,7 @@
 <taikai>
   <array id="1" category="Kodachi" for="8">
     <configuration>
-      <goldenScore> true </goldenScore>
+      <goldenScore> true </goldenScore> <!-- Here is a comment -->
       <minute> 2 </minute>
       <types> Ippon </types>
     </configuration>

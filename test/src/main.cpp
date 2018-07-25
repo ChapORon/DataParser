@@ -19,5 +19,9 @@ int main(int ac, char **av)
     timer_register("dp load small xml", &BenchXml::test_load_small_xml);
     timer_register("boost load fat xml", &BenchXml::boost_load_fat_xml);
     timer_register("dp load fat xml", &BenchXml::test_load_fat_xml);
+    timer_register("boost write small xml", &BenchXml::boost_write_small_xml);
+    timer_register("dp write small xml", &BenchXml::test_write_small_xml);
+    timer_register("boost write fat xml", &BenchXml::boost_write_fat_xml);
+    timer_register("dp write fat xml", &BenchXml::test_write_fat_xml);
     return run_test(ac, av);
 }

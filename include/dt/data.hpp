@@ -1,6 +1,7 @@
 #ifndef DATAPARSER_DATATREE_DATA_HPP
 #define DATAPARSER_DATATREE_DATA_HPP
 
+#include <ostream>
 #include <string>
 
 namespace dp::dt
@@ -70,5 +71,7 @@ namespace dp::dt
         ~data() = default;
     };
 }
+
+std::ostream &operator<<(std::ostream &, const dp::dt::data &);
 
 #endif //DATAPARSER_DATATREE_DATA_HPP

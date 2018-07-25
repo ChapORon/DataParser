@@ -110,3 +110,9 @@ bool dp::dt::data::operator!=(const dp::dt::data &other) const
 {
     return !(other == *this);
 }
+
+std::ostream &operator<<(std::ostream &os, const dp::dt::data &data)
+{
+    os << data.getString();
+    return os;
+}

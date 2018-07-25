@@ -1,5 +1,26 @@
 #include "test.h"
 
+struct elapsed_time
+{
+    unsigned int minute;
+    unsigned int second;
+    unsigned int millisecond;
+    unsigned int microsecond;
+};
+
+struct time_for
+{
+    clock_t clock;
+    unsigned int time;
+    struct elapsed_time elapsed;
+};
+
+struct timer
+{
+    struct time_for cpu;
+    struct time_for user;
+};
+
 struct test_map
 {
     char *name;
@@ -98,20 +119,53 @@ static bool test_run_test(struct test_map *node)
     return false;
 }
 
+static void start_timer(struct timer *timer)
+{
+    timer->cpu.time = 0;
+    timer->user.time = 0;
+    timer->user.clock = times(NULL);
+    timer->cpu.clock = clock();
+}
+
+static struct elapsed_time generate_from(unsigned int time)
+{
+    struct elapsed_time elapsed;
+    elapsed.minute = time / 60000000;
+    time = time - (elapsed.minute * 60000000);
+    elapsed.second = time / 1000000;
+    time = time - (elapsed.second * 1000000);
+    elapsed.millisecond = time / 1000;
+    time = time - (elapsed.millisecond * 1000);
+    elapsed.microsecond = time;
+    return elapsed;
+}
+
+static void stop_timer(struct timer *timer)
+{
+    clock_t cpu = clock();
+    clock_t user = times(NULL);
+    timer->cpu.time = (unsigned int)(((double)(cpu - timer->cpu.clock) / CLOCKS_PER_SEC) * 1000000);
+    timer->user.time = (unsigned int)((double)(user - timer->user.clock) * 10000);
+    timer->cpu.elapsed = generate_from(timer->cpu.time);
+    timer->user.elapsed = generate_from(timer->user.time);
+}
+
+static void print_elapsed(struct elapsed_time elapsed)
+{
+    printf("%um%us%ums%uμs\n", elapsed.minute, elapsed.second, elapsed.millisecond, elapsed.microsecond);
+}
+
 static bool execute_timer_test(struct test_map *node)
 {
+    struct timer timer;
     printf("%s%s%s\n", "\033[1;37mRunning timer \"\033[1;34m", node->name, "\033[1;37m\"");
-    clock_t start, end;
-    start = times(NULL);
+    start_timer(&timer);
     test_run_test(node);
-    end = times(NULL);
-    unsigned int cpu_time_used = (unsigned int)((double)(end - start) * 10);
-    int min = cpu_time_used / 60000;
-    cpu_time_used = cpu_time_used - (min * 60000);
-    int sec = cpu_time_used / 1000;
-    cpu_time_used = cpu_time_used - (sec * 1000);
-    int millisec = cpu_time_used;
-    printf("%um%us%ums\n", min, sec, millisec);
+    stop_timer(&timer);
+    printf("User time: ");
+    print_elapsed(timer.user.elapsed);
+    printf("CPU time: ");
+    print_elapsed(timer.cpu.elapsed);
     return true;
 }
 

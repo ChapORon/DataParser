@@ -7,6 +7,7 @@
 #include <string.h>
 #include <sys/times.h>
 #include <sys/wait.h>
+#include <time.h>
 #include <unistd.h>
 
 #define Test(x) void x()
