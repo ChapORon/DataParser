@@ -14,6 +14,7 @@ namespace dp
             friend class dp::xml;
         private:
             xml() = default;
+            void addValue(std::string &, const std::string &);
             dp::dt::node loadAttribute(const std::string &, size_t &);
             dp::dt::node createNodeFromTag(const std::string &, bool);
             bool byPassComment(const std::string &, size_t &);

@@ -1,19 +1,45 @@
 {
-  "head": {
-    "__xmldeclarations__": {
-      "xml": {
-        "version": 1.0,
-        "encoding": "UTF-8"
-      }
+  "_id": "5b59b51ff7d3ceac587e93ef",
+  "index": 0,
+  "guid": "73dc84a9-08fb-43c2-80be-e06683636dae",
+  "isActive": true,
+  "balance": "$3,496.50",
+  "picture": "http://placehold.it/32x32",
+  "age": 26,
+  "eyeColor": "green",
+  "name": "Simone Lynn",
+  "gender": "female",
+  "company": "CINCYR",
+  "email": "simonelynn@cincyr.com",
+  "phone": "+1 (813) 500-3845",
+  "address": "795 Banner Avenue, Newry, Colorado, 5710",
+  "about": "Duis aute sint qui nulla laborum sunt incididunt culpa officia incididunt magna Lorem quis. Commodo laboris magna laborum nostrud dolor do ullamco sunt aute consequat. Ex qui ea nulla deserunt ad culpa mollit voluptate. In do occaecat magna sunt nulla velit. Proident anim fugiat voluptate irure enim minim aliqua voluptate ex sunt qui. Fugiat irure culpa eiusmod dolor et et dolore culpa id mollit ipsum id.\r\n",
+  "registered": "2017-12-29T08:40:40 -01:00",
+  "latitude": -48.072383,
+  "longitude": -119.69781,
+  "tags": [
+    "labore",
+    "est",
+    "velit",
+    "irure",
+    "irure",
+    "exercitation",
+    "incididunt"
+  ],
+  "friends": [
+    {
+      "id": 0,
+      "name": "Alyson Lewis"
     },
-    "__xmlattributes__": {
-      "test": 12
+    {
+      "id": 1,
+      "name": "Callahan Montgomery"
     },
-    "testeuh": {
-      "test": 12,
-      "block": {
-        "test": 12
-      }
+    {
+      "id": 2,
+      "name": "Molly Ayala"
     }
-  }
+  ],
+  "greeting": "Hello, Simone Lynn! You have 4 unread messages.",
+  "favoriteFruit": "apple"
 }

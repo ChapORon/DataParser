@@ -4,7 +4,7 @@ CXXTest(TestXml, test_extract_xml)
 {
     dp::dt::node head = dp::xml::loadFromFile("./test.xml");
     assert_false(head == dp::dt::node::null);
-    std::string expected = "<?xml version=\"1.7\" encoding=\"UTF-8\"?>\n<taikai>\n<array id=\"1\" category=\"Kodachi\" for=\"8\">\n<configuration>\n<goldenscore>\ntrue\n</goldenscore>\n<minute>\n2\n</minute>\n<types>\nIppon\n</types>\n</configuration>\n<configuration for=\"2\">\n<goldenscore>\ntrue\n</goldenscore>\n<minute>\n5\n</minute>\n<types>\nIppon\n</types>\n</configuration>\n</array>\n</taikai>\n";
+    std::string expected = "<?xml version=\"1.7\" encoding=\"UTF-8\"?>\n<taikai>\n<array id=\"1\" category=\"Kodachi&amp;\" for=\"8\">\n<configuration>\n<goldenscore>\ntrue\n</goldenscore>\n<minute>\n2\n</minute>\n<types>\nIppon\n</types>\n</configuration>\n<configuration for=\"2\">\n<goldenscore>\ntrue\n</goldenscore>\n<minute>\n5\n</minute>\n<types>\nIppon\n</types>\n</configuration>\n</array>\n</taikai>\n";
     assert_true(dp::xml::str(head, 0) == expected);
 }
 

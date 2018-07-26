@@ -1,6 +1,6 @@
 <?xml version="1.7" encoding="UTF-8"?>
 <taikai>
-  <array id="1" category="Kodachi" for="8">
+  <array id="1" category="Kodachi&amp;" for="8">
     <configuration>
       <goldenscore>
         true

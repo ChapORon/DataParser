@@ -1,5 +1,24 @@
 #include "parser/xml.hpp"
 
+void dp::parser::xml::addValue(std::string &content, const std::string &value)
+{
+    for (char c : value)
+    {
+        if (c == '<')
+            content += "&lt;";
+        else if (c == '>')
+            content += "&gt;";
+        else if (c == '&')
+            content += "&amp;";
+        else if (c == '\'')
+            content += "&apos;";
+        else if (c == '"')
+            content += "&quot;";
+        else
+            content += c;
+    }
+}
+
 const std::string dp::parser::xml::str(const dp::dt::node &node, unsigned int indentFactor, unsigned int depth)
 {
     if (depth == 0 && node.empty())
@@ -21,7 +40,11 @@ const std::string dp::parser::xml::str(const dp::dt::node &node, unsigned int in
         {
             content += "<?" + element.name();
             for (const auto &info : element)
-                content += " " + info.name() + "=\"" + info.value().getString() + "\"";
+            {
+                content += " " + info.name() + "=\"";
+                addValue(content, info.value().getString());
+                content += '"';
+            }
             content += "?>\n";
         }
         ++minSize;
@@ -31,7 +54,11 @@ const std::string dp::parser::xml::str(const dp::dt::node &node, unsigned int in
     if (attributes != dt::node::null)
     {
         for (const auto &attribute : attributes)
-            content += " " + attribute.name() + "=\"" + attribute.value().getString() + "\"";
+        {
+            content += " " + attribute.name() + "=\"";
+            addValue(content, attribute.value().getString());
+            content += '"';
+        }
         ++minSize;
     }
     if (node.value().empty() && node.childs().size() == minSize)
@@ -43,7 +70,7 @@ const std::string dp::parser::xml::str(const dp::dt::node &node, unsigned int in
         {
             content += tabs;
             content += indent;
-            content += node.value().getString();
+            addValue(content, node.value().getString());
             content += '\n';
         }
         auto tags = node.childs();
@@ -62,20 +89,12 @@ const std::string dp::parser::xml::str(const dp::dt::node &node, unsigned int in
 
 bool dp::parser::xml::byPassComment(const std::string &content, size_t &pos)
 {
-    if (start_with(content, "<!-- ", pos))
-    {
-        pos += 5;
-        while (!start_with(content, " -->", pos))
-            ++pos;
-        pos += 4;
-        return true;
-    }
-    else if (start_with(content, "!-- ", (pos - 1)))
+    if (start_with(content, "<!--", pos))
     {
         pos += 4;
-        while (!start_with(content, " -->", pos))
+        while (!start_with(content, "-->", pos))
             ++pos;
-        pos += 4;
+        pos += 3;
         return true;
     }
     return false;
@@ -90,17 +109,43 @@ void dp::parser::xml::byPass(const std::string &content, size_t &pos)
 
 std::string dp::parser::xml::loadValue(const std::string &content, size_t &pos)
 {
+    bool escaping = false;
     char current = content[pos];
     if (current != '<')
     {
-        std::string value;
+        std::string value, escape;
         value += current;
         ++pos;
         current = content[pos];
         while (current != '<' && pos != content.length())
         {
-            if (current == '\n')
+            if (escaping)
+            {
+                if (current != ';')
+                    escape += current;
+                else
+                {
+                    if (escape == "lt")
+                        value += '<';
+                    else if (escape == "gt")
+                        value += '>';
+                    else if (escape == "amp")
+                        value += '&';
+                    else if (escape == "apos")
+                        value += '\'';
+                    else if (escape == "quot")
+                        value += '"';
+                    escaping = false;
+                }
+                ++pos;
+            }
+            else if (current == '\n')
                 byPass(content, pos);
+            else if (current == '&')
+            {
+                escaping = true;
+                ++pos;
+            }
             else
             {
                 value += current;
@@ -121,7 +166,8 @@ std::string dp::parser::xml::loadValue(const std::string &content, size_t &pos)
 
 dp::dt::node dp::parser::xml::loadAttribute(const std::string &content, size_t &pos)
 {
-    std::string name, value;
+    bool escaping = false;
+    std::string name, value, escape;
     while (content[pos] != '=' && pos != content.length())
     {
         name += content[pos];
@@ -133,10 +179,42 @@ dp::dt::node dp::parser::xml::loadAttribute(const std::string &content, size_t &
         (pos + 2) == content.length())
         return dp::dt::node::null;
     pos += 2;
+    char current = content[pos];
     while (content[pos] != '"' && pos != content.length())
     {
-        value += content[pos];
-        ++pos;
+        if (escaping)
+        {
+            if (current != ';')
+                escape += current;
+            else
+            {
+                if (escape == "lt")
+                    value += '<';
+                else if (escape == "gt")
+                    value += '>';
+                else if (escape == "amp")
+                    value += '&';
+                else if (escape == "apos")
+                    value += '\'';
+                else if (escape == "quot")
+                    value += '"';
+                escaping = false;
+            }
+            ++pos;
+        }
+        else if (current == '\n')
+            byPass(content, pos);
+        else if (current == '&')
+        {
+            escaping = true;
+            ++pos;
+        }
+        else
+        {
+            value += current;
+            ++pos;
+        }
+        current = content[pos];
     }
     if (pos == content.length())
         return dp::dt::node::null;

@@ -172,7 +172,6 @@ static bool execute_timer_test(struct test_map *node)
 static bool execute_unit_test(struct test_map *node)
 {
     printf("%s%s%s\n", "\033[1;37mRunning test \"\033[1;34m", node->name, "\033[1;37m\"");
-    sleep(1);
     if (test_run_test(node))
     {
         printf("%s\n", "\033[0;32m----------------");
@@ -250,20 +249,20 @@ static int run_test_map(int ac, char **av, struct test_map *map,
 
 int run_test(int ac, char **av)
 {
-    if (unitTest.size != 0)
-    {
-        int ret = run_test_map(ac, av, unitTest.map, &execute_unit_test, &treat_unit_test_result);
-        destroy_map(unitTest.map);
-        unitTest.size = 0;
-        if (timeTest.size != 0)
-        {
-            run_test_map(ac, av, timeTest.map, &execute_timer_test, NULL);
-            destroy_map(timeTest.map);
-            timeTest.size = 0;
-        }
-        return ret;
-    }
     if (ac == 1)
         return 0;
-    return 1;
+    int ret = 1;
+    if (unitTest.size != 0)
+    {
+        ret = run_test_map(ac, av, unitTest.map, &execute_unit_test, &treat_unit_test_result);
+        destroy_map(unitTest.map);
+        unitTest.size = 0;
+    }
+    if (timeTest.size != 0)
+    {
+        run_test_map(ac, av, timeTest.map, &execute_timer_test, NULL);
+        destroy_map(timeTest.map);
+        timeTest.size = 0;
+    }
+    return ret;
 }
