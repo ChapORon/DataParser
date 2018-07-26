@@ -1,0 +1,15 @@
+<?xml version="1.7" encoding="UTF-8"
+<taikai>
+  <array id="1" category="Kodachi" for="8">
+    <configuration>
+      <goldenScore> true </goldenScore> <!-- Here is a comment -->
+      <minute> 2 </minute>
+      <types> Ippon </types>
+    </configuration>
+    <configuration for="2">
+      <goldenScore> true </goldenScore>
+      <minute> 5 </minute>
+      <types> Ippon </types>
+    </configuration>
+  </array>
+</taikai>

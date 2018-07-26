@@ -243,7 +243,7 @@ void dp::dt::node::value(const dp::dt::data &value)
 
 bool dp::dt::node::empty() const
 {
-    return _name.empty() && _value.empty() && _childs.empty();
+    return _value.empty() && _childs.empty();
 }
 
 dp::dt::node::iterator dp::dt::node::begin()

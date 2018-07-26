@@ -81,16 +81,6 @@ bool dp::parser::xml::byPassComment(const std::string &content, size_t &pos)
     return false;
 }
 
-void dp::parser::xml::byPassTrailing(const std::string &content, size_t &pos)
-{
-    char current = content[pos];
-    while (current == ' ' || current == '\t' || current == '\n')
-    {
-        ++pos;
-        current = content[pos];
-    }
-}
-
 void dp::parser::xml::byPass(const std::string &content, size_t &pos)
 {
     byPassTrailing(content, pos);
@@ -187,7 +177,7 @@ dp::dt::node dp::parser::xml::createNodeFromTag(const std::string &content, bool
         byPassTrailing(content, pos);
         current = content[pos];
     }
-    if (!declarations && !attributes.empty())
+    if (!attributes.empty())
         node.add(attributes);
     return node;
 }
@@ -282,6 +272,8 @@ dp::dt::node dp::parser::xml::loadFromContent(const std::string &content)
     size_t pos = 0;
     byPass(content, pos);
     dp::dt::node declarations = loadDeclarations(content, pos);
+    if (declarations == dp::dt::node::null)
+        return dp::dt::node::null;
     byPass(content, pos);
     if (content[pos] != '<')
         return dp::dt::node::null;

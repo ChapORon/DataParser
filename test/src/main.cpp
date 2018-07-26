@@ -14,6 +14,7 @@ int main(int ac, char **av)
     //test_register("test_extract_json", &TestJson::test_extract_json);
     test_register("test_create_json", &TestJson::test_create_json);
     test_register("test_extract_xml", &TestXml::test_extract_xml);
+    test_register("test_error_xml", &TestXml::test_extract_xml);
     test_register("test_create_xml", &TestXml::test_create_xml);
     timer_register("boost load small xml", &BenchXml::boost_load_small_xml);
     timer_register("dp load small xml", &BenchXml::test_load_small_xml);

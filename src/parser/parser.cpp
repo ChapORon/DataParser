@@ -66,6 +66,16 @@ std::vector<std::string> dp::parser::parser::split(const std::string &str, const
     return vec;
 }
 
+void dp::parser::parser::byPassTrailing(const std::string &content, size_t &pos)
+{
+    char current = content[pos];
+    while (current == ' ' || current == '\t' || current == '\n')
+    {
+        ++pos;
+        current = content[pos];
+    }
+}
+
 void dp::parser::parser::write(const dp::dt::node &node, std::ostream &os, unsigned int indentFactor)
 {
     os << str(node, indentFactor);
@@ -79,12 +89,21 @@ void dp::parser::parser::write(const dp::dt::node &node, const std::string &file
 
 dp::dt::node dp::parser::parser::loadFromFile(const std::string &path)
 {
+    struct stat buf;
+    if (stat(path.c_str(), &buf) != 0)
+        return dp::dt::node::null;
     std::ifstream fileStream(path.c_str());
-    return loadFromStream(fileStream);
+    long int nbChar = buf.st_size;
+    auto buffer = new char[nbChar];
+    fileStream.read(buffer, nbChar);
+    std::string content(buffer);
+    return loadFromContent(content);
 }
 
 dp::dt::node dp::parser::parser::loadFromStream(std::istream &stream)
 {
+    if (!stream.good())
+        return dp::dt::node::null;
     std::string content, line;
     while (std::getline(stream, line))
     {

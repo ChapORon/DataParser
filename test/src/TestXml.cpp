@@ -8,6 +8,20 @@ CXXTest(TestXml, test_extract_xml)
     assert_true(dp::xml::str(head, 0) == expected);
 }
 
+CXXTest(TestXml, test_error_xml)
+{
+    dp::dt::node head = dp::xml::loadFromFile("./unknown_file.xml");
+    assert_true(head == dp::dt::node::null);
+    head = dp::xml::loadFromFile("./error1.xml");
+    assert_true(head == dp::dt::node::null);
+    head = dp::xml::loadFromFile("./error2.xml");
+    assert_true(head == dp::dt::node::null);
+    head = dp::xml::loadFromFile("./error3.xml");
+    assert_true(head == dp::dt::node::null);
+    head = dp::xml::loadFromFile("./error4.xml");
+    assert_true(head == dp::dt::node::null);
+}
+
 CXXTest(TestXml, test_create_xml)
 {
     dp::dt::node head = dp::xml::create("head");

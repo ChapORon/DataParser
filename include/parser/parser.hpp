@@ -3,6 +3,7 @@
 
 #include <fstream>
 #include <string>
+#include <sys/stat.h>
 #include <vector>
 #include "dt/node.hpp"
 
@@ -17,6 +18,7 @@ namespace dp::parser
         void trim(std::string &);
         size_t count(std::string &, const std::string &);
         std::vector<std::string> split(const std::string &, const std::string &);
+        void byPassTrailing(const std::string &, size_t &);
 
     public:
         void write(const dt::node &, std::ostream &, unsigned int = 2);

@@ -17,7 +17,6 @@ namespace dp
             dp::dt::node loadAttribute(const std::string &, size_t &);
             dp::dt::node createNodeFromTag(const std::string &, bool);
             bool byPassComment(const std::string &, size_t &);
-            void byPassTrailing(const std::string &, size_t &);
             void byPass(const std::string &, size_t &);
             std::string loadValue(const std::string &, size_t &);
             dp::dt::node loadNode(const std::string &, size_t &);

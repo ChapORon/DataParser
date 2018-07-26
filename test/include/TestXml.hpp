@@ -8,5 +8,6 @@ class TestXml
 {
 public:
     STest(test_extract_xml);
+    STest(test_error_xml);
     STest(test_create_xml);
 };
