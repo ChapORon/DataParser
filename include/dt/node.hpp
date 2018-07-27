@@ -50,6 +50,7 @@ namespace dp::dt
         const_iterator end() const;
         bool operator==(const node &rhs) const;
         bool operator!=(const node &rhs) const;
+        bool isNull() const;
     };
 }
 

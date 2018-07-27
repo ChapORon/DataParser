@@ -1,6 +1,6 @@
 #include "parser/xml.hpp"
 
-void dp::parser::xml::addValue(std::string &content, const std::string &value)
+void dp::parser::xml::addValue(std::string &content, const std::string &value, const std::string &tab)
 {
     for (char c : value)
     {
@@ -14,6 +14,11 @@ void dp::parser::xml::addValue(std::string &content, const std::string &value)
             content += "&apos;";
         else if (c == '"')
             content += "&quot;";
+        else if (c == '\n')
+        {
+            content += c;
+            content += tab;
+        }
         else
             content += c;
     }
@@ -21,10 +26,13 @@ void dp::parser::xml::addValue(std::string &content, const std::string &value)
 
 const std::string dp::parser::xml::str(const dp::dt::node &node, unsigned int indentFactor, unsigned int depth)
 {
-    if (depth == 0 && node.empty())
-        return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
-    if (node == dt::node::null)
-        return "(null)\n";
+    if (depth == 0)
+    {
+        if (node == dt::node::null)
+            return "(null)\n";
+        else if (node.empty())
+            return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+    }
     std::string name = node.name();
     std::transform(name.begin(), name.end(), name.begin(), ::tolower);
     std::string indent(indentFactor, ' ');
@@ -42,7 +50,7 @@ const std::string dp::parser::xml::str(const dp::dt::node &node, unsigned int in
             for (const auto &info : element)
             {
                 content += " " + info.name() + "=\"";
-                addValue(content, info.value().getString());
+                addValue(content, info.value().getString(), tabs);
                 content += '"';
             }
             content += "?>\n";
@@ -56,7 +64,7 @@ const std::string dp::parser::xml::str(const dp::dt::node &node, unsigned int in
         for (const auto &attribute : attributes)
         {
             content += " " + attribute.name() + "=\"";
-            addValue(content, attribute.value().getString());
+            addValue(content, attribute.value().getString(), tabs);
             content += '"';
         }
         ++minSize;
@@ -70,7 +78,7 @@ const std::string dp::parser::xml::str(const dp::dt::node &node, unsigned int in
         {
             content += tabs;
             content += indent;
-            addValue(content, node.value().getString());
+            addValue(content, node.value().getString(), (tabs + indent));
             content += '\n';
         }
         auto tags = node.childs();
@@ -140,7 +148,10 @@ std::string dp::parser::xml::loadValue(const std::string &content, size_t &pos)
                 ++pos;
             }
             else if (current == '\n')
+            {
+                value += current;
                 byPass(content, pos);
+            }
             else if (current == '&')
             {
                 escaping = true;
@@ -155,7 +166,8 @@ std::string dp::parser::xml::loadValue(const std::string &content, size_t &pos)
         }
         if (pos == content.length())
             return "";
-        value = value.substr(0, value.find_last_not_of(" \t") + 1);
+        value = value.substr(0, value.find_last_not_of(" \t\n") + 1);
+        byPass(content, pos);
         std::string add = loadValue(content, pos);
         if (!add.empty())
             value += add;
@@ -203,7 +215,10 @@ dp::dt::node dp::parser::xml::loadAttribute(const std::string &content, size_t &
             ++pos;
         }
         else if (current == '\n')
+        {
+            value += current;
             byPass(content, pos);
+        }
         else if (current == '&')
         {
             escaping = true;
@@ -218,6 +233,7 @@ dp::dt::node dp::parser::xml::loadAttribute(const std::string &content, size_t &
     }
     if (pos == content.length())
         return dp::dt::node::null;
+    value = value.substr(0, value.find_last_not_of(" \t\n") + 1);
     ++pos;
     return dp::dt::node(name, dp::dt::data(value));
 }
@@ -283,10 +299,16 @@ dp::dt::node dp::parser::xml::loadNode(const std::string &content, size_t &pos)
     byPass(content, pos);
     if (end_with(nodeOpenTag, "/"))
         return node;
-    std::string nodeValue = loadValue(content, pos);
+    std::string nodeValue, valueToAdd;
     while (!start_with(content, "</", pos))
     {
-        nodeValue += loadValue(content, pos);
+        valueToAdd = loadValue(content, pos);
+        if (!valueToAdd.empty())
+        {
+            if (!nodeValue.empty())
+                nodeValue += '\n';
+            nodeValue += valueToAdd;
+        }
         byPass(content, pos);
         if (!start_with(content, "</", pos))
         {

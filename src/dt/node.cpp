@@ -16,6 +16,7 @@ dp::dt::node::node(const std::string &name, const data &value) : _null(false), _
 
 dp::dt::node &dp::dt::node::operator=(const node &other)
 {
+    _null = other._null;
     _value = other._value;
     _childs = other._childs;
     return *this;
@@ -284,4 +285,9 @@ bool dp::dt::node::operator!=(const dp::dt::node &other) const
 void dp::dt::node::name(const std::string &name)
 {
     _name = name;
+}
+
+bool dp::dt::node::isNull() const
+{
+    return _null;
 }

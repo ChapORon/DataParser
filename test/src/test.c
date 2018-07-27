@@ -199,7 +199,7 @@ static int treat_unit_test_result(unsigned int success, unsigned int fail)
     return fail;
 }
 
-static int run_test_map(int ac, char **av, struct test_map *map,
+static int run_test_map(int ac, char **av, struct test_map *map, const char *type,
                         bool (*execute_test)(struct test_map *),
                         int (*treat_result)(unsigned int, unsigned int))
 {
@@ -243,24 +243,22 @@ static int run_test_map(int ac, char **av, struct test_map *map,
             return treat_result(success, fail);
         return 0;
     }
-    printf("%s\n", "\033[1;31mNo test selected\033[0m");
+    printf("\033[1;31mNo %s selected\033[0m\n", type);
     return 1;
 }
 
 int run_test(int ac, char **av)
 {
-    if (ac == 1)
-        return 0;
     int ret = 1;
     if (unitTest.size != 0)
     {
-        ret = run_test_map(ac, av, unitTest.map, &execute_unit_test, &treat_unit_test_result);
+        ret = run_test_map(ac, av, unitTest.map, "test", &execute_unit_test, &treat_unit_test_result);
         destroy_map(unitTest.map);
         unitTest.size = 0;
     }
     if (timeTest.size != 0)
     {
-        run_test_map(ac, av, timeTest.map, &execute_timer_test, NULL);
+        run_test_map(ac, av, timeTest.map, "timer", &execute_timer_test, NULL);
         destroy_map(timeTest.map);
         timeTest.size = 0;
     }

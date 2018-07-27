@@ -10,9 +10,12 @@ CXXTest(TestXml, test_extract_xml)
 
 CXXTest(TestXml, test_error_xml)
 {
-    dp::dt::node head = dp::xml::loadFromFile("./unknown_file.xml");
+    dp::dt::node head = dp::xml::loadFromFile("./worst.xml");
+    assert_true(head != dp::dt::node::null);
+    head = dp::xml::loadFromFile("./unknown_file.xml");
     assert_true(head == dp::dt::node::null);
-    head = dp::xml::loadFromFile("./error1.xml");
+    std::cout << "Unknown file not found" << std::endl;
+    dp::xml::write(head, std::cout);
     assert_true(head == dp::dt::node::null);
     head = dp::xml::loadFromFile("./error2.xml");
     assert_true(head == dp::dt::node::null);

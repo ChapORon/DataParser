@@ -1,0 +1,23 @@
+<?xml version="1.7" encoding="UTF-8"?>
+<taikai>
+    <array id="1" category="Kodachi&amp;" for="8">
+        <configuration>
+            <!-- Comment
+            on
+            multiple line -->
+            <goldenScore> tr<!-- Here is a comment inside a value -->ue </goldenScore> <!-- Here is a comment -->
+            <minute> 2 </minute>
+            <types> Ippon </types>
+        </configuration>
+        <configuration for="2">
+            Content
+            here
+            <goldenScore> true </goldenScore>
+            here
+            <minute> 5 </minute>
+            and
+            <types> Ippon </types>
+            here
+        </configuration>
+    </array>
+</taikai>
