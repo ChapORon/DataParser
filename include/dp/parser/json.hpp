@@ -2,7 +2,7 @@
 #define DATAPARSER_PARSER_JSON_HPP
 
 #include <regex>
-#include "parser.hpp"
+#include "dp/parser/parser.hpp"
 
 namespace dp
 {
@@ -14,7 +14,7 @@ namespace dp
             friend class dp::json;
         private:
             json() = default;
-            std::string getValue(const dt::data &);
+            std::string getValue(const std::string &);
 
         public:
             template<typename T>

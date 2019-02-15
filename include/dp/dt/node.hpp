@@ -5,7 +5,7 @@
 #include <sstream>
 #include <utility>
 #include <vector>
-#include "data.hpp"
+#include "dp/dt/data.hpp"
 
 namespace dp::dt
 {
@@ -39,7 +39,9 @@ namespace dp::dt
         void add(const node &, bool = false);
         bool remove(const std::string &);
         const node &get(const std::string &) const;
-        const data &value() const;
+        bool haveValue() const;
+        template <typename T>
+        T get() const {static_assert(sizeof(T) == 0, "dp::dt::node::get can only be call with template bool, char, int, float, double, long, std::string and const std::string &");}
         const std::string &name() const;
         const std::vector<node> &childs() const;
         bool find(const std::string &) const;
@@ -53,5 +55,14 @@ namespace dp::dt
         bool isNull() const;
     };
 }
+
+template <> bool dp::dt::node::get<bool>() const;
+template <> char dp::dt::node::get<char>() const;
+template <> int dp::dt::node::get<int>() const;
+template <> float dp::dt::node::get<float>() const;
+template <> double dp::dt::node::get<double>() const;
+template <> long dp::dt::node::get<long>() const;
+template <> std::string dp::dt::node::get<std::string>() const;
+template <> const std::string &dp::dt::node::get<const std::string &>() const;
 
 #endif //DATAPARSER_DATATREE_NODE_HPP

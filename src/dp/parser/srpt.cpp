@@ -1,4 +1,4 @@
-#include "parser/srpt.hpp"
+#include "dp/parser/srpt.hpp"
 
 std::string dp::parser::srpt::getValue(const dp::dt::data &data)
 {
@@ -27,7 +27,7 @@ const std::string dp::parser::srpt::str(const dp::dt::node &node, unsigned int i
         else
             tabs += std::string(indentFactor, ' ');
     }
-    std::string value = node.value().getString();
+    std::string value = node.get<const std::string &>();
     std::string content = tabs;
     if (value.empty())
         content += node.name();

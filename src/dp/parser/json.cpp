@@ -1,8 +1,7 @@
-#include "parser/json.hpp"
+#include "dp/parser/json.hpp"
 
-std::string dp::parser::json::getValue(const dp::dt::data &data)
+std::string dp::parser::json::getValue(const std::string &value)
 {
-    std::string value = data.getString();
     if (value == "true" ||
         value == "false" ||
         std::regex_match(value, std::regex("^[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?$")))
@@ -18,7 +17,7 @@ const std::string dp::parser::json::str(const dp::dt::node &node, unsigned int i
     std::string indent(indentFactor, ' ');
     for (size_t n = 0; n != (depth + 1); ++n)
         tabs += indent;
-    std::string value = node.value().getString();
+    std::string value = node.get<const std::string &>();
     std::string content;
     if (depth == 0)
         content = "{\n";
@@ -26,7 +25,7 @@ const std::string dp::parser::json::str(const dp::dt::node &node, unsigned int i
     if (!node.name().empty())
         content += '"' + node.name() + "\": ";
     if (!value.empty())
-        content += getValue(node.value());
+        content += getValue(node.get<const std::string &>());
     auto tags = node.childs();
     bool array = false;
     if (!tags.empty())

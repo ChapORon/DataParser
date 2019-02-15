@@ -5,7 +5,7 @@
 #include <string>
 #include <sys/stat.h>
 #include <vector>
-#include "dt/node.hpp"
+#include "dp/dt/node.hpp"
 
 namespace dp::parser
 {

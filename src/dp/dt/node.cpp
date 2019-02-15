@@ -1,4 +1,4 @@
-#include "dt/node.hpp"
+#include "dp/dt/node.hpp"
 
 const dp::dt::node dp::dt::node::null = dp::dt::node(true);
 
@@ -119,11 +119,6 @@ void dp::dt::node::add(const dp::dt::node &node, bool replace)
     _childs.emplace_back(node);
 }
 
-const dp::dt::data &dp::dt::node::value() const
-{
-    return _value;
-}
-
 const std::string &dp::dt::node::name() const
 {
     return _name;
@@ -241,6 +236,20 @@ void dp::dt::node::value(const dp::dt::data &value)
 {
     _value = value;
 }
+
+bool dp::dt::node::haveValue() const
+{
+    return _value.empty();
+}
+
+template <> bool dp::dt::node::get<bool>() const {return _value.getBool();}
+template <> char dp::dt::node::get<char>() const {return _value.getChar();}
+template <> int dp::dt::node::get<int>() const {return _value.getInt();}
+template <> float dp::dt::node::get<float>() const {return _value.getFloat();}
+template <> double dp::dt::node::get<double>() const {return _value.getDouble();}
+template <> long dp::dt::node::get<long>() const {return _value.getLong();}
+template <> std::string dp::dt::node::get<std::string>() const {return _value.getString();}
+template <> const std::string &dp::dt::node::get<const std::string &>() const {return _value.getCString();}
 
 bool dp::dt::node::empty() const
 {

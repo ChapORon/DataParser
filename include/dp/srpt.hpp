@@ -1,7 +1,7 @@
 #ifndef DATAPARSER_SRPT_HPP
 #define DATAPARSER_SRPT_HPP
 
-#include "parser/srpt.hpp"
+#include "dp/parser/srpt.hpp"
 
 namespace dp
 {

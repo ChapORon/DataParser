@@ -1,4 +1,4 @@
-#include "dt/data.hpp"
+#include "dp/dt/data.hpp"
 
 dp::dt::data::data() : isEmpty(true) {}
 
@@ -96,7 +96,12 @@ long dp::dt::data::getLong() const
     return std::stol(attributes);
 }
 
-const std::string &dp::dt::data::getString() const
+std::string dp::dt::data::getString() const
+{
+    return attributes;
+}
+
+const std::string &dp::dt::data::getCString() const
 {
     return attributes;
 }

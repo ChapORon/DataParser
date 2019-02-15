@@ -1,4 +1,4 @@
-#include "parser/xml.hpp"
+#include "dp/parser/xml.hpp"
 
 void dp::parser::xml::addValue(std::string &content, const std::string &value, const std::string &tab)
 {
@@ -50,7 +50,7 @@ const std::string dp::parser::xml::str(const dp::dt::node &node, unsigned int in
             for (const auto &info : element)
             {
                 content += " " + info.name() + "=\"";
-                addValue(content, info.value().getString(), tabs);
+                addValue(content, info.get<const std::string &>(), tabs);
                 content += '"';
             }
             content += "?>\n";
@@ -64,21 +64,21 @@ const std::string dp::parser::xml::str(const dp::dt::node &node, unsigned int in
         for (const auto &attribute : attributes)
         {
             content += " " + attribute.name() + "=\"";
-            addValue(content, attribute.value().getString(), tabs);
+            addValue(content, attribute.get<const std::string &>(), tabs);
             content += '"';
         }
         ++minSize;
     }
-    if (node.value().empty() && node.childs().size() == minSize)
+    if (node.haveValue() && node.childs().size() == minSize)
         content += " />\n";
     else
     {
         content += ">\n";
-        if (!node.value().empty())
+        if (!node.haveValue())
         {
             content += tabs;
             content += indent;
-            addValue(content, node.value().getString(), (tabs + indent));
+            addValue(content, node.get<const std::string &>(), (tabs + indent));
             content += '\n';
         }
         auto tags = node.childs();

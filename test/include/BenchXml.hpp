@@ -3,8 +3,8 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
 #include <iostream>
-#include <dt/node.hpp>
-#include <xml.hpp>
+#include <dp/dt/node.hpp>
+#include <dp/xml.hpp>
 #include "test.h"
 
 class BenchXml

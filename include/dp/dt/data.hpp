@@ -67,7 +67,8 @@ namespace dp::dt
         float getFloat() const;
         double getDouble() const;
         long getLong() const;
-        const std::string &getString() const;
+        std::string getString() const;
+        const std::string &getCString() const;
         ~data() = default;
     };
 }

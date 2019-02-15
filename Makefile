@@ -49,6 +49,10 @@ fclean : clean
 
 re: fclean all
 
-rerelease: fclean release
+install: uninstall fclean release
+	sudo cp $(NAME) /usr/lib
+	sudo cp -R include/dp /usr/include
 
-redebug: fclean debug
+uninstall:
+	sudo rm -rf /usr/lib/$(NAME)
+	sudo rm -rf /usr/include/dp

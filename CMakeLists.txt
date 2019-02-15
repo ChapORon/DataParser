@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.8)
 project(DataParser)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 
 set(NAME DataParser)
 
@@ -12,9 +12,6 @@ set(INCPATH ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 include_directories(include)
 
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g3")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Ofast")
-
 if (CMAKE_BUILD_TYPE MATCHES Debug OR CMAKE_BUILD_TYPE MATCHES Test)
     set(NAME ${NAME}D)
     add_definitions(-DDEBUG=1)
@@ -24,24 +21,24 @@ else()
 endif()
 
 set(SOURCE_FILES
-        ${INCPATH}/dt/data.hpp
-        ${INCPATH}/dt/node.hpp
-        ${INCPATH}/parser/json.hpp
-        ${INCPATH}/parser/parser.hpp
-        ${INCPATH}/parser/srpt.hpp
-        ${INCPATH}/parser/xml.hpp
-        ${INCPATH}/json.hpp
-        ${INCPATH}/srpt.hpp
-        ${INCPATH}/xml.hpp
-        ${SRCPATH}/dt/data.cpp
-        ${SRCPATH}/dt/node.cpp
-        ${SRCPATH}/parser/json.cpp
-        ${SRCPATH}/parser/parser.cpp
-        ${SRCPATH}/parser/srpt.cpp
-        ${SRCPATH}/parser/xml.cpp
-        ${SRCPATH}/json.cpp
-        ${SRCPATH}/srpt.cpp
-        ${SRCPATH}/xml.cpp)
+        ${INCPATH}/dp/dt/data.hpp
+        ${INCPATH}/dp/dt/node.hpp
+        ${INCPATH}/dp/parser/json.hpp
+        ${INCPATH}/dp/parser/parser.hpp
+        ${INCPATH}/dp/parser/srpt.hpp
+        ${INCPATH}/dp/parser/xml.hpp
+        ${INCPATH}/dp/json.hpp
+        ${INCPATH}/dp/srpt.hpp
+        ${INCPATH}/dp/xml.hpp
+        ${SRCPATH}/dp/dt/data.cpp
+        ${SRCPATH}/dp/dt/node.cpp
+        ${SRCPATH}/dp/parser/json.cpp
+        ${SRCPATH}/dp/parser/parser.cpp
+        ${SRCPATH}/dp/parser/srpt.cpp
+        ${SRCPATH}/dp/parser/xml.cpp
+        ${SRCPATH}/dp/json.cpp
+        ${SRCPATH}/dp/srpt.cpp
+        ${SRCPATH}/dp/xml.cpp)
 
 add_library(${NAME} SHARED ${SOURCE_FILES})
 if (CMAKE_BUILD_TYPE MATCHES Test)
