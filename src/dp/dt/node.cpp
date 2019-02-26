@@ -131,10 +131,10 @@ const std::vector<dp::dt::node> &dp::dt::node::childs() const
 
 bool dp::dt::node::find(const std::string &key) const
 {
-    return get(key) != dt::node::null;
+    return getNode(key) != dt::node::null;
 }
 
-const dp::dt::node &dp::dt::node::get(const std::string &key) const
+const dp::dt::node &dp::dt::node::getNode(const std::string &key) const
 {
     unsigned long pos = key.find('.');
     if (pos != std::string::npos)
@@ -150,7 +150,7 @@ const dp::dt::node &dp::dt::node::get(const std::string &key) const
                     --nb;
                 if (nb < 0)
                 {
-                    auto &ret = child.get(newKey);
+                    auto &ret = child.getNode(newKey);
                     if (ret != dt::node::null)
                         return ret;
                     else if (nb == -1)

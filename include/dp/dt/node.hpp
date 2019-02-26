@@ -38,8 +38,10 @@ namespace dp::dt
         void add(const std::string &, const node &, bool = false);
         void add(const node &, bool = false);
         bool remove(const std::string &);
-        const node &get(const std::string &) const;
+        const node &getNode(const std::string &) const;
         bool haveValue() const;
+        template <typename T>
+        T get(const std::string &key) const {return getNode(key).get<T>();}
         template <typename T>
         T get() const {static_assert(sizeof(T) == 0, "dp::dt::node::get can only be call with template bool, char, int, float, double, long, std::string and const std::string &");}
         const std::string &name() const;

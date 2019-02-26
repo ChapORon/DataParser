@@ -41,7 +41,7 @@ const std::string dp::parser::xml::str(const dp::dt::node &node, unsigned int in
         tabs += indent;
     std::string content;
     unsigned int minSize = 0;
-    dt::node elements = node.get("__xmldeclarations__");
+    dt::node elements = node.getNode("__xmldeclarations__");
     if (depth == 0 && elements != dt::node::null)
     {
         for (const auto &element : elements)
@@ -58,7 +58,7 @@ const std::string dp::parser::xml::str(const dp::dt::node &node, unsigned int in
         ++minSize;
     }
     content += tabs + "<" + name;
-    dt::node attributes = node.get("__xmlattributes__");
+    dt::node attributes = node.getNode("__xmlattributes__");
     if (attributes != dt::node::null)
     {
         for (const auto &attribute : attributes)

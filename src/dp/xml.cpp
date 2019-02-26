@@ -46,7 +46,7 @@ void dp::xml::addDeclaration(dp::dt::node &node, const std::string &key, const s
 dp::dt::node dp::xml::loadFromFile(const std::string &path)
 {
     dp::dt::node node = parser.loadFromFile(path);
-    if (node != dp::dt::node::null && node.get("__xmldeclarations__.xml") == dp::dt::node::null)
+    if (node != dp::dt::node::null && node.getNode("__xmldeclarations__.xml") == dp::dt::node::null)
         return dp::dt::node::null;
     return node;
 }
