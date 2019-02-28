@@ -94,8 +94,9 @@ dp::dt::node dp::parser::parser::loadFromFile(const std::string &path)
         return dp::dt::node::null;
     std::ifstream fileStream(path.c_str());
     long int nbChar = buf.st_size;
-    auto buffer = new char[nbChar];
+    auto buffer = new char[nbChar + 1];
     fileStream.read(buffer, nbChar);
+    buffer[nbChar] = '\0';
     std::string content(buffer);
     return loadFromContent(content);
 }
